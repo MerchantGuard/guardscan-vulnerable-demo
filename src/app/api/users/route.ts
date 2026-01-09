@@ -1,5 +1,5 @@
 /**
- * Users API - quick and dirty
+ * Users API
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -22,12 +22,11 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ user });
 }
 
-// VULNERABILITY: No authentication - anyone can delete users!
+// Anyone can delete - no checks!
 export async function DELETE(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const userId = searchParams.get('id');
 
-  // Anyone can delete without auth check
   const index = users.findIndex(u => u.id === userId);
   if (index > -1) {
     users.splice(index, 1);
@@ -36,11 +35,10 @@ export async function DELETE(request: NextRequest) {
   return NextResponse.json({ success: true });
 }
 
-// VULNERABILITY: No rate limiting on POST
+// No rate limiting
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  // No validation, no rate limiting
   const newUser = {
     id: String(users.length + 1),
     name: body.name,
