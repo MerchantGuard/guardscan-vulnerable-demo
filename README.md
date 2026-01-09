@@ -1,41 +1,29 @@
-# GuardScan™ Vulnerable Demo App
+# GuardScan Vulnerable Demo
 
-> ⚠️ **WARNING: This repository is INTENTIONALLY VULNERABLE**
->
-> This is a demonstration app created by [MerchantGuard](https://merchantguard.ai) to showcase [GuardScan™](https://merchantguard.ai/guardscan) - our free security scanner for vibe-coded apps.
+> **WARNING: This code is INTENTIONALLY VULNERABLE - for demo purposes only!**
 
-## Purpose
+This demo shows **common security issues in vibe-coded apps** - the kind of mistakes made when shipping fast with AI coding tools.
 
-This repo contains **intentionally planted security vulnerabilities** commonly found in apps built quickly with AI coding tools like Claude, Cursor, Replit, and Copilot.
+## Try GuardScan
 
-**DO NOT:**
-- Deploy this code to production
-- Use any of this code in real applications
-- Report these as "security vulnerabilities" - they are intentional
+1. Go to [merchantguard.ai/guardscan](https://www.merchantguard.ai/guardscan)
+2. Enter: `github.com/MerchantGuard/guardscan-vulnerable-demo`
+3. See what GuardScan catches!
 
-## What's Wrong With This Code?
+**Expected Grade: D-**
 
-Scan this repo with [GuardScan™](https://merchantguard.ai/guardscan) to find out! Here's a hint - we've planted:
+## What's Wrong Here?
 
-- 🔑 Hardcoded API keys
-- 💉 SQL injection vulnerabilities
-- 🔓 Weak authentication
-- 🎭 XSS vulnerabilities
-- 🚫 Missing rate limiting
-- 📦 Outdated dependencies with known CVEs
-- 💲 PCI-DSS violations
+- Hardcoded OpenAI API key
+- SQL injection vulnerability
+- Missing authentication
+- No rate limiting
+- XSS via dangerouslySetInnerHTML
 
-## Try GuardScan™
-
-1. Go to [merchantguard.ai/guardscan](https://merchantguard.ai/guardscan)
-2. Paste this repo URL: `github.com/MerchantGuard/guardscan-vulnerable-demo`
-3. Click "Scan Free"
-4. See all the issues we planted!
-
-## Ship Fast. Ship Safe.
-
-Built with ❤️ by the MerchantGuard team.
+These are real mistakes vibe coders make every day.
 
 ---
 
-*This is an educational resource. All "secrets" in this repo are fake and non-functional.*
+Built by [MerchantGuard](https://merchantguard.ai) - Security for vibe coders.
+
+*All "secrets" in this repo are fake.*
