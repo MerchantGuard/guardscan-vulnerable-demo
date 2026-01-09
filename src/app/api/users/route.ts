@@ -4,42 +4,49 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-// Simulated database query
-async function dbQuery(sql: string) {
-  console.log('Executing:', sql);
-  return []; // Mock response
-}
+// Mock database
+const users = [
+  { id: '1', name: 'John', email: 'john@example.com' },
+  { id: '2', name: 'Jane', email: 'jane@example.com' },
+];
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const userId = searchParams.get('id');
 
   if (!userId) {
-    return NextResponse.json({ error: 'User ID required' }, { status: 400 });
-  }
-
-  // VULNERABILITY: SQL Injection - user input directly in query
-  const query = `SELECT * FROM users WHERE id = '${userId}'`;
-
-  try {
-    const users = await dbQuery(query);
     return NextResponse.json({ users });
-  } catch (error) {
-    return NextResponse.json({ error: 'Database error' }, { status: 500 });
   }
+
+  const user = users.find(u => u.id === userId);
+  return NextResponse.json({ user });
 }
 
+// VULNERABILITY: No authentication - anyone can delete users!
 export async function DELETE(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const userId = searchParams.get('id');
 
-  // VULNERABILITY: No authentication - anyone can delete users!
-  const query = `DELETE FROM users WHERE id = ${userId}`;
-
-  try {
-    await dbQuery(query);
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Delete failed' }, { status: 500 });
+  // Anyone can delete without auth check
+  const index = users.findIndex(u => u.id === userId);
+  if (index > -1) {
+    users.splice(index, 1);
   }
+
+  return NextResponse.json({ success: true });
+}
+
+// VULNERABILITY: No rate limiting on POST
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+
+  // No validation, no rate limiting
+  const newUser = {
+    id: String(users.length + 1),
+    name: body.name,
+    email: body.email,
+  };
+
+  users.push(newUser);
+  return NextResponse.json({ user: newUser }, { status: 201 });
 }
